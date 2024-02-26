@@ -33,6 +33,7 @@ def create_df_time(df):
     return df_time
 
 #menyiapkan dataset
+df_AQI=pd.read_csv("https://github.com/ardenaAfif/submission-data-analisis/blob/main/air-quality-data.xls")
 df_AQI=pd.read_csv("https://raw.githubusercontent.com/Rahmatbaaka/submission-AnalisisData_Dicoding/main/dashboard/df_AQI.csv")
 df_AQI.sort_values(by="kolom_datetime")
 df_AQI.reset_index(inplace=True)
