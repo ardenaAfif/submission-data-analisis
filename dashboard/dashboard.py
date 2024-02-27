@@ -33,8 +33,8 @@ def create_df_time(df):
     return df_time
 
 #menyiapkan dataset
-df_AQI=pd.read_csv("https://github.com/ardenaAfif/submission-data-analisis/blob/main/air-quality-data.xls")
-df_AQI=pd.read_csv("https://raw.githubusercontent.com/Rahmatbaaka/submission-AnalisisData_Dicoding/main/dashboard/df_AQI.csv")
+df_AQI=pd.read_csv("https://raw.githubusercontent.com/ardenaAfif/submission-data-analisis/main/air-quality-data.csv")
+
 df_AQI.sort_values(by="kolom_datetime")
 df_AQI.reset_index(inplace=True)
 df_AQI["kolom_datetime"]=pd.to_datetime(df_AQI["kolom_datetime"])
@@ -45,7 +45,7 @@ max_date = df_AQI["kolom_datetime"].max()
  
 with st.sidebar:
     # Menambahkan logo perusahaan
-    st.image("https://raw.githubusercontent.com/Rahmatbaaka/submission-AnalisisData_Dicoding/main/dashboard/Air%20Quality%20Index.png")
+    # st.image("https://raw.githubusercontent.com/Rahmatbaaka/submission-AnalisisData_Dicoding/main/dashboard/Air%20Quality%20Index.png")
     
     # Mengambil start_date & end_date dari date_input
     start_date, end_date = st.date_input(
