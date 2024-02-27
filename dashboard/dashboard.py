@@ -61,20 +61,17 @@ daerah_df = create_daerah_df(main_df)
 Viklim_mean_df = create_Viklim_mean_df(main_df)
 time_df = create_df_time(main_df)
 
-#membuat header dashboard
-# st.image("https://github.com/ardenaAfif/submission-data-analisis/blob/main/assets/Air%20Quality.png")
-
-
+# Membuat header dashboard
 st.header('Air Quality Index Dashboard')
 st.text('------------------------------------------')
 
 st.subheader("Best & Worst Air Quality Index (AQI)")
-#membuat subplot grid
+# Membuat subplot grid
 fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(24, 6))
 
-#membuat template color untuk visualisasi
-colors1 = ["#00FF00" , "#D3D3D9", "#D3D3D9", "#D3D3D9", "#D3D3D9"]
-colors2 = ["#1E90FF" , "#D3D3D9", "#D3D3D9", "#D3D3D9", "#D3D3D9"]
+# Membuat template color untuk visualisasi
+colors1 = ["#FF6233" , "#D3D3D9", "#D3D3D9", "#D3D3D9", "#D3D3D9"]
+colors2 = ["#17AFBC" , "#D3D3D9", "#D3D3D9", "#D3D3D9", "#D3D3D9"]
 
 #membuat barplot dengan inisialisasi ax[0]
 sns.barplot(x="index_AQI", y="kolom_station", data=daerah_df.head(5), palette=colors1, ax=ax[0])
@@ -127,7 +124,7 @@ k= 0
 for i in range(2):
     for j in range(int(len(cat_var)/2)):
         sns.barplot(y= time_df.groupby(by= cat_var[k]).index_AQI.sum(),
-                    x= time_df.groupby(by= cat_var[k]).mean(numeric_only=True).index, ax= ax[i,j], palette= 'winter')
+                    x= time_df.groupby(by= cat_var[k]).mean(numeric_only=True).index, ax= ax[i,j], palette= 'summer')
 
         ax[i,j].set_title(f'{cat_var[k].upper()}', fontsize= 30)
         ax[i,j].set_ylabel('')
