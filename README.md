@@ -25,7 +25,7 @@ streamlit run dashboard.py
 [Aqi Quality Index Dashboard](https://dashboard-data-analytics-dicoding.streamlit.app/)
 
 ## Screenshot
-![image](https://github.com/ardenaAfif/submission-data-analisis/blob/main/assets/Screenshot%20dashboard%201.png)
+![image](https://github.com/ardenaAfif/submission-data-analisis/blob/main/assets/Screenshot%20Dashboard%201.png)
 
-![image](https://github.com/ardenaAfif/submission-data-analisis/blob/main/assets/Screenshot%20dashboard%202.png)
+![image](https://github.com/ardenaAfif/submission-data-analisis/blob/main/assets/Screenshot%20Dashboard%202.png)
 
