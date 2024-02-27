@@ -3,14 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
+from PIL import Image
 from babel.numbers import format_currency
-
-#line 16 : helper function
-#line 35 : menyiapkan dataset
-#line 41 : filter data
-#line 67 : visualisasi pertama
-#line 96 : visualisasi kedua
-#line 141: visualisasi ketiga
 
 
 #menyiapkan helper function untuk dataframe
@@ -44,15 +38,20 @@ min_date = df_AQI["kolom_datetime"].min()
 max_date = df_AQI["kolom_datetime"].max()
  
 with st.sidebar:
-    # Menambahkan logo perusahaan
-    # st.image("https://raw.githubusercontent.com/Rahmatbaaka/submission-AnalisisData_Dicoding/main/dashboard/Air%20Quality%20Index.png")
+    st.header('Select a Date')
     
     # Mengambil start_date & end_date dari date_input
-    start_date, end_date = st.date_input(
-        label='Rentang Waktu',
+    start_date = st.date_input(
+        label='Start Date',
         min_value=min_date,
         max_value=max_date,
-        value=[min_date, max_date]
+        value=min_date
+    )
+    end_date = st.date_input(
+        label='End Date',
+        min_value=min_date,
+        max_value=max_date,
+        value=max_date
     )
 
 main_df = df_AQI[(df_AQI["kolom_datetime"] >= str(start_date)) & 
@@ -63,7 +62,11 @@ Viklim_mean_df = create_Viklim_mean_df(main_df)
 time_df = create_df_time(main_df)
 
 #membuat header dashboard
-st.header('Air Quality Index dashboard :cloud:')
+# st.image("https://github.com/ardenaAfif/submission-data-analisis/blob/main/assets/Air%20Quality.png")
+
+
+st.header('Air Quality Index Dashboard')
+st.text('------------------------------------------')
 
 st.subheader("Best & Worst Air Quality Index (AQI)")
 #membuat subplot grid
@@ -81,7 +84,7 @@ ax[0].set_title("Best Air Quality Index (AQI)", loc="center", fontsize=30)
 ax[0].tick_params(axis ='y', labelsize=20)
 ax[0].tick_params(axis ='x', labelsize=20)
 
-#membuat barplot dengan inisialisasi ax[1]
+# membuat barplot dengan inisialisasi ax[1]
 sns.barplot(x="index_AQI", y="kolom_station", data=daerah_df.sort_values(by="index_AQI", ascending=True).head(5), palette=colors2, ax=ax[1])
 ax[1].set_ylabel(None)
 ax[1].set_xlabel(None)
@@ -94,52 +97,7 @@ ax[1].tick_params(axis ='x', labelsize=20)
 
 st.pyplot(fig)
 
-st.subheader("Average variable Iklim")
-
-col1, col2, col3, col4= st.columns(4)
-
-with col1:
-    mean_temp = round(Viklim_mean_df.T.kolom_TEMP.mean(), 2)
-    st.metric("Avarage TEMP", value=mean_temp)
-
-with col2:
-    mean_pres = round(Viklim_mean_df.T.kolom_PRES.mean(), 2)
-    st.metric("Avarage PRES", value=mean_pres)
-
-with col3:
-    mean_dewp = round(Viklim_mean_df.T.kolom_DEWP.mean(), 2)
-    st.metric("Avarage DEWP", value=mean_dewp)
-
-with col4:
-    mean_wspm = round(Viklim_mean_df.T.kolom_WSPM.mean(), 2)
-    st.metric("Avarage WSPM", value=mean_wspm)
-
-species = ("TEMP", "PRES", "DEWP", "WSPM") 
-
-#mengatur posisi, lebar, & jarak setiap bar
-x = np.arange(len(species))
-width = 0.25
-multiplier = 1
-
-fig, ax = plt.subplots(layout='constrained') #membuat subplot grid
-
-#looping untuk mengisi subplot grid dengan plots
-for attribute, measurement in Viklim_mean_df.items():
-    offset = width * multiplier
-    rects = ax.bar(x + offset, measurement, width, label=attribute)
-    ax.bar_label(rects, padding=4, rotation=30)
-    multiplier += 1
-
-# Menambah text, title,& label
-ax.set_ylabel('Mean')
-ax.set_title('Pengaruh TEMP, WSPM, PRES, & DEWP')
-ax.set_xticks(x + width, species)
-ax.legend(loc='upper left', ncols=4)
-ax.set_ylim(-2, 45)
-
-st.pyplot(fig)
-
-st.subheader("Air Quality Index by variable time")
+st.subheader("Air Quality Index by Time")
 
 col1, col2, col3, col4= st.columns(4)
 
@@ -180,3 +138,51 @@ for i in range(2):
         k+=1
 
 st.pyplot(fig)
+
+# Average of Climate
+st.subheader("Average of Climate")
+
+col1, col2, col3, col4= st.columns(4)
+
+with col1:
+    mean_temp = round(Viklim_mean_df.T.kolom_TEMP.mean(), 2)
+    st.metric("Avarage TEMP", value=mean_temp)
+
+with col2:
+    mean_pres = round(Viklim_mean_df.T.kolom_PRES.mean(), 2)
+    st.metric("Avarage PRES", value=mean_pres)
+
+with col3:
+    mean_dewp = round(Viklim_mean_df.T.kolom_DEWP.mean(), 2)
+    st.metric("Avarage DEWP", value=mean_dewp)
+
+with col4:
+    mean_wspm = round(Viklim_mean_df.T.kolom_WSPM.mean(), 2)
+    st.metric("Avarage WSPM", value=mean_wspm)
+
+species = ("TEMP", "PRES", "DEWP", "WSPM") 
+
+# mengatur posisi, lebar, & jarak setiap bar
+x = np.arange(len(species))
+width = 0.25
+multiplier = 1
+
+fig, ax = plt.subplots(layout='constrained') #membuat subplot grid
+
+# looping untuk mengisi subplot grid dengan plots
+for attribute, measurement in Viklim_mean_df.items():
+    offset = width * multiplier
+    rects = ax.bar(x + offset, measurement, width, label=attribute)
+    ax.bar_label(rects, padding=4, rotation=30)
+    multiplier += 1
+
+# Menambah text, title,& label
+ax.set_ylabel('Mean')
+ax.set_title('Pengaruh TEMP, WSPM, PRES, & DEWP')
+ax.set_xticks(x + width, species)
+ax.legend(loc='upper left', ncols=4)
+ax.set_ylim(-2, 45)
+
+st.pyplot(fig)
+
+
